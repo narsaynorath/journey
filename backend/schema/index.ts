@@ -1,5 +1,6 @@
-import { User } from "./User";
-import { createSchema } from "@keystone-next/keystone/schema";
+import { createSchema } from '@keystone-next/keystone/schema';
+
+import { User } from './User';
 
 export const lists = createSchema({
   User,
