@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "cypress:open": "cypress open"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "cypress": "^7.3.0",
+    "cypress-cucumber-preprocessor": "^4.1.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.2",
+    "prettier": "^2.3.0"
+  }
+}
