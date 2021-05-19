@@ -13,4 +13,17 @@ model User {
   name     String?
   email    String? @unique
   password String?
+  plans    Plan[]  @relation("Planuser")
+}
+
+model Plan {
+  id          Int       @id @default(autoincrement())
+  title       String?
+  destination String?
+  tripStart   DateTime?
+  tripEnd     DateTime?
+  user        User?     @relation("Planuser", fields: [userId], references: [id])
+  userId      Int?      @map("user")
+
+  @@index([userId])
 }
