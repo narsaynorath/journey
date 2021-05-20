@@ -1,31 +1,42 @@
-import { create } from 'domain';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import NavBar from './NavBar';
 
 const GlobalStyles = createGlobalStyle`
+    @font-face {
+        font-family: "Dancing Script";
+        src: url("/fonts/DancingScript/DancingScript-Regular.tff")
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+    }
+
     html,
     body {
-    padding: 0;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background: beige;
+        padding: 0;
+        margin: 0;
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+        background: beige;
+        height: 100vh;
     }
 
     a {
-    color: inherit;
-    text-decoration: none;
+        color: inherit;
+        text-decoration: none;
     }
 
     * {
-    box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    #__next {
+        height: 100%
     }
 `;
 
 export default function Page({ children }) {
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <GlobalStyles />
       <NavBar />
       {children}
