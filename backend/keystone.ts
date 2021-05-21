@@ -25,7 +25,7 @@ let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
 
 const auth = createAuth({
   listKey: 'User',
-  identityField: 'email',
+  identityField: 'username',
   secretField: 'password',
   initFirstItem: {
     fields: ['name', 'username', 'email', 'password'],

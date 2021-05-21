@@ -3,14 +3,6 @@ import styled, { createGlobalStyle } from 'styled-components';
 import NavBar from './NavBar';
 
 const GlobalStyles = createGlobalStyle`
-    @font-face {
-        font-family: "Dancing Script";
-        src: url("/fonts/DancingScript/DancingScript-Regular.tff")
-        font-weight: 300;
-        font-style: normal;
-        font-display: swap;
-    }
-
     html,
     body {
         padding: 0;

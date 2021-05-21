@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import { useRouter } from 'next/dist/client/router';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
@@ -7,6 +8,7 @@ import { Message } from 'primereact/message';
 import styled from 'styled-components';
 
 import useForm from '../lib/useForm';
+import { CURRENT_USER_QUERY } from '../lib/user';
 
 const CardStyles = styled.div`
   display: flex;
@@ -39,85 +41,53 @@ const ButtonStyles = styled.div`
   width: fit-content;
 `;
 
-const SIGN_UP_MUTATION = gql`
-  mutation SIGN_UP_MUTATION(
-    $name: String
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    createUser(
-      data: {
-        name: $name
-        username: $username
-        email: $email
-        password: $password
+const LOGIN_MUTATION = gql`
+  mutation LOGIN_MUTATION($username: String!, $password: String!) {
+    authenticateUserWithPassword(username: $username, password: $password) {
+      ... on UserAuthenticationWithPasswordSuccess {
+        item {
+          id
+          username
+          name
+        }
       }
-    ) {
-      name
-      email
+      ... on UserAuthenticationWithPasswordFailure {
+        code
+        message
+      }
     }
   }
 `;
 
-function getSuccessMessage({ email, name }) {
-  if (name) {
-    return `You have successfully signed up! Please login with your new account, ${name}.`;
-  }
-
-  return `You have successfully signed up! Please login with your new account.`;
-}
-
-export default function SignUp() {
-  const { inputs, handleChange, clearForm } = useForm({
-    name: '',
+export default function Login() {
+  const router = useRouter();
+  const { inputs, handleChange } = useForm({
     username: '',
-    email: '',
     password: '',
   });
 
-  const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION, {
+  const [login, { data, error }] = useMutation(LOGIN_MUTATION, {
     variables: inputs,
+    refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
 
   return (
     <CardStyles>
       <Card style={{ width: '600px' }}>
         <HeaderStyles>
-          <h1>Sign Up</h1>
+          <h1>Login</h1>
         </HeaderStyles>
         <FormStyles
           onSubmit={async (e) => {
             e.preventDefault();
             try {
-              await signUp();
-              clearForm();
+              await login();
+              console.log(data);
+              router.push('/');
             } catch {}
           }}
         >
-          {error && (
-            <Message
-              severity="error"
-              text="This user account is already taken."
-            />
-          )}
-          {data?.createUser && (
-            <Message
-              severity="success"
-              text={getSuccessMessage({ ...data.createUser })}
-            />
-          )}
-          <label htmlFor="name" className="p-d-block">
-            Name (optional)
-          </label>
-          <InputText
-            id="name"
-            name="name"
-            aria-describedby="name-help"
-            className="p-d-block"
-            value={inputs.name}
-            onChange={handleChange}
-          />
+          {error && <Message severity="error" text="An error occurred." />}
           <label htmlFor="username" className="p-d-block">
             Username
           </label>
@@ -128,19 +98,6 @@ export default function SignUp() {
             required={true}
             className="p-d-block"
             value={inputs.username}
-            onChange={handleChange}
-          />
-          <label htmlFor="email" className="p-d-block">
-            Email
-          </label>
-          <InputText
-            id="email"
-            name="email"
-            type="email"
-            aria-describedby="email-help"
-            required={true}
-            className="p-d-block"
-            value={inputs.email}
             onChange={handleChange}
           />
           <label htmlFor="password" className="p-d-block">
@@ -160,8 +117,8 @@ export default function SignUp() {
             <ButtonStyles>
               <Button
                 type="submit"
-                label="Sign Up"
-                icon="pi pi-ticket"
+                label="Login"
+                icon="pi pi-ticket" // TODO: Change this
                 iconPos="right"
               />
             </ButtonStyles>

@@ -356,7 +356,7 @@ type Mutation {
   """
   deletePlans(ids: [ID!]): [Plan]
   authenticateUserWithPassword(
-    email: String!
+    username: String!
     password: String!
   ): UserAuthenticationWithPasswordResult!
   createInitialUser(
