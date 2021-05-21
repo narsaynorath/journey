@@ -3,6 +3,7 @@
     "cypress:open": "cypress open"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^7.0.6",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
     "cypress": "^7.3.0",

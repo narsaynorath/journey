@@ -11,6 +11,7 @@ input PlanRelateToManyInput {
 type User {
   id: ID!
   name: String
+  username: String
   email: String
   password_is_set: Boolean
   plans(
@@ -60,6 +61,24 @@ input UserWhereInput {
   name_not_ends_with_i: String
   name_in: [String]
   name_not_in: [String]
+  username: String
+  username_not: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
+  username_i: String
+  username_not_i: String
+  username_contains_i: String
+  username_not_contains_i: String
+  username_starts_with_i: String
+  username_not_starts_with_i: String
+  username_ends_with_i: String
+  username_not_ends_with_i: String
+  username_in: [String]
+  username_not_in: [String]
   email: String
   email_not: String
   email_contains: String
@@ -105,12 +124,15 @@ enum SortUsersBy {
   id_DESC
   name_ASC
   name_DESC
+  username_ASC
+  username_DESC
   email_ASC
   email_DESC
 }
 
 input UserUpdateInput {
   name: String
+  username: String
   email: String
   password: String
   plans: PlanRelateToManyInput
@@ -123,6 +145,7 @@ input UsersUpdateInput {
 
 input UserCreateInput {
   name: String
+  username: String
   email: String
   password: String
   plans: PlanRelateToManyInput
@@ -373,6 +396,7 @@ enum PasswordAuthErrorCode {
 
 input CreateInitialUserInput {
   name: String
+  username: String
   email: String
   password: String
 }

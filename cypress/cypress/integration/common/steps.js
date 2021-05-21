@@ -1,11 +1,32 @@
-import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
+import { Before, Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
+
+Before({ tags: '@creates_user' }, () => {
+  // Cleans up cypresstest username before tests to avoid
+  // prebuilt state conflict
+  cy.deleteUser({ username: 'cypresstest' });
+});
 
 Given(/^I am not logged in$/, () => {
   cy.clearCookies();
 });
 
-When(/^I navigate to the homepage$/, () => {
+Given(/^I have created a user with the following fields:$/, (dataTable) => {
+  // Generate key-value pairs from the header and data table
+  const data = Object.fromEntries(
+    dataTable.rawTable[0].map((key, index) => [
+      key,
+      dataTable.rawTable[1][index],
+    ])
+  );
+  cy.createUser(data);
+});
+
+Given(/^I navigate to the homepage$/, () => {
   cy.visit('/');
+});
+
+Given(/^I navigate to the sign up page$/, () => {
+  cy.visit('/signup');
 });
 
 When(/^I click the "([^"]*)" link$/, (linkName) => {
@@ -13,11 +34,11 @@ When(/^I click the "([^"]*)" link$/, (linkName) => {
 });
 
 When(/^I type "([^"]*)" into the "([^"]*)" field$/, (typeText, fieldName) => {
-  cy.contains('input', fieldName).type(typeText);
+  cy.findByLabelText(fieldName).type(typeText);
 });
 
 When(/^I click the "([^"]*)" button$/, (buttonName) => {
-  cy.contains('button', buttonName).click();
+  cy.findByRole('button', { name: buttonName }).click();
 });
 
 Then(/^I see the page title is "([^"]*)"$/, (title) => {
@@ -36,10 +57,19 @@ Then(/^I see a header with the text "([^"]*)"$/, (headerText) => {
   cy.contains('header', headerText).should('be.visible');
 });
 
-Then(/^I see a text input with the text "([^"]*)"$/, (inputText) => {
-  cy.contains('input', inputText).should('be.visible');
+Then(/^I see a "([^"]*)" field$/, (fieldLabel) => {
+  cy.findByLabelText(fieldLabel).should('be.visible');
 });
 
-Then(/^I see the text "([^"]*)$/, (text) => {
-  cy.contains(text).should('be.visible');
+Then(/^I (see|do not see) the text "([^"]*)"$/, (visibility, text) => {
+  const assertion = visibility === 'see' ? 'be.visible' : 'not.exist';
+  cy.findByText(text).should(assertion);
+});
+
+Then(/^I see the "([^"]*)" field is empty$/, (fieldLabel) => {
+  cy.findByLabelText(fieldLabel).should('have.value', '');
+});
+
+Then(/^I see an error that says "([^"]*)"$/, (text) => {
+  cy.findByRole('alert', { text }).should('be.visible');
 });

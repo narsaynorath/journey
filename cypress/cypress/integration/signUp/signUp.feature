@@ -1,16 +1,38 @@
 Feature: Sign Up for New Account
 
+        @creates_user
         Scenario: Successful New Account Registration
             Given I am not logged in
               And I navigate to the homepage
               And I click the "Sign Up Free" link
               And I see the URL is now "/signup"
               And I see a header with the text "Sign Up"
-              And I see a text input with the text "Username"
-              And I see a text input with the text "Email"
-              And I see a text input with the text "Password"
-             When I type "cypresstest" into the "Username" field
+              And I see a "Name" field
+              And I see a "Username" field
+              And I see a "Email" field
+              And I see a "Password" field
+              And I type "Cypress Test" into the "Name" field
+              And I type "cypresstest" into the "Username" field
               And I type "cypresstest@example.com" into the "Email" field
               And I type "password" into the "Password" field
-              And I click the "Sign Up" button
-             Then I see the text "You have successfully signed up! Please login with your new account."
+             When I click the "Sign Up" button
+             Then I see the "Name" field is empty
+              And I see the "Username" field is empty
+              And I see the "Email" field is empty
+              And I see the "Password" field is empty
+              And I see the text "You have successfully signed up! Please login with your new account, Cypress Test."
+
+        @creates_user
+        Scenario: Account registration fails if user already exists
+            Given I am not logged in
+              And I have created a user with the following fields:
+                  | name          | username    | email                   | password |
+                  | Cypress Test2 | cypresstest | cypresstest@example.com | password |
+              And I navigate to the sign up page
+              And I type "Cypress Test" into the "Name" field
+              And I type "cypresstest" into the "Username" field
+              And I type "cypresstest@example.com" into the "Email" field
+              And I type "password" into the "Password" field
+             When I click the "Sign Up" button
+             Then I do not see the text "You have successfully signed up! Please login with your new account, Cypress Test."
+              And I see an error that says "This user account is already taken."

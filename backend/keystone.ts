@@ -1,41 +1,51 @@
-import { config } from "@keystone-next/keystone/schema";
+import { createAuth } from '@keystone-next/auth';
+import { config } from '@keystone-next/keystone/schema';
 import {
   statelessSessions,
   withItemData,
-} from "@keystone-next/keystone/session";
-import { createAuth } from "@keystone-next/auth";
+} from '@keystone-next/keystone/session';
 
-import { lists } from "./schema";
+import { lists } from './schema';
+
+import 'dotenv/config';
 
 let sessionSecret = process.env.SESSION_SECRET;
 
 if (!sessionSecret) {
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === 'production') {
     throw new Error(
-      "The SESSION_SECRET environment variable must be set in production"
+      'The SESSION_SECRET environment variable must be set in production'
     );
   } else {
-    sessionSecret = "-- DEV COOKIE SECRET; CHANGE ME --";
+    sessionSecret = '-- DEV COOKIE SECRET; CHANGE ME --';
   }
 }
 
 let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
 
 const auth = createAuth({
-  listKey: "User",
-  identityField: "email",
-  secretField: "password",
+  listKey: 'User',
+  identityField: 'email',
+  secretField: 'password',
   initFirstItem: {
-    fields: ["name", "email", "password"],
+    fields: ['name', 'username', 'email', 'password'],
   },
 });
 
 export default auth.withAuth(
   config({
+    server: {
+      cors: {
+        // @ts-ignore
+        origin: [process.env.FRONTEND_URL],
+        port: 3000,
+        credentials: true,
+      },
+    },
     db: {
-      adapter: "prisma_postgresql",
+      adapter: 'prisma_postgresql',
       url:
-        process.env.DATABASE_URL || "postgres://narsaynorath@localhost/journey",
+        process.env.DATABASE_URL || 'postgres://narsaynorath@localhost/journey',
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
@@ -46,7 +56,7 @@ export default auth.withAuth(
         maxAge: sessionMaxAge,
         secret: sessionSecret,
       }),
-      { User: "name" }
+      { User: 'name' }
     ),
   })
 );

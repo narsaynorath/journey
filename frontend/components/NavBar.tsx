@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import styled from 'styled-components';
 import { Button } from 'primereact/button';
+import styled from 'styled-components';
 
 import Logo from './Logo';
 
@@ -42,14 +42,21 @@ export default function NavBar() {
         </Link>
         <SloganStyles>Your journey starts with one step</SloganStyles>
         <NavLinkStyles>
-          <Link href="signup">
-            <Button
-              className="p-button-raised p-button-lg"
-              label="Sign Up Free"
-            />
+          <Link href="/signup">
+            <a>
+              <Button
+                className="p-button-raised p-button-lg"
+                label="Sign Up Free"
+              />
+            </a>
           </Link>
-          <Link href="login">
-            <Button className="p-button-lg p-button-secondary" label="Login" />
+          <Link href="/login">
+            <a>
+              <Button
+                className="p-button-lg p-button-secondary"
+                label="Login"
+              />
+            </a>
           </Link>
         </NavLinkStyles>
       </NavBarInnerStyles>
