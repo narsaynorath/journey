@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { Button } from 'primereact/button';
 import styled from 'styled-components';
 
 import { useUser } from '../lib/user';
 import Logo from './Logo';
+import Logout from './Logout';
 
 const NavBarStyles = styled.header`
   position: relative;
@@ -38,12 +38,20 @@ export default function NavBar() {
         </Link>
         {user && <p>Welcome, {user?.name || user?.username}!</p>}
         <NavLinkStyles>
-          <Link href="/signup">
-            <a className="p-button p-button-lg p-button-raised">Sign Up Free</a>
-          </Link>
-          <Link href="/login">
-            <a className="p-button p-button-lg p-button-secondary">Login</a>
-          </Link>
+          {user ? (
+            <Logout />
+          ) : (
+            <>
+              <Link href="/signup">
+                <a className="p-button p-button-lg p-button-raised">
+                  Sign Up Free
+                </a>
+              </Link>
+              <Link href="/login">
+                <a className="p-button p-button-lg p-button-secondary">Login</a>
+              </Link>
+            </>
+          )}
         </NavLinkStyles>
       </NavBarInnerStyles>
     </NavBarStyles>

@@ -6,6 +6,13 @@ Before({ tags: '@creates_user' }, () => {
   cy.deleteUser({ username: 'cypresstest' });
 });
 
+Given(
+  /^I am logged in with the username "([^"]*)" and password "([^"]*)"$/,
+  (username, password) => {
+    cy.login({ username, password });
+  }
+);
+
 Given(/^I am not logged in$/, () => {
   cy.clearCookies();
 });
@@ -72,4 +79,8 @@ Then(/^I see the "([^"]*)" field is empty$/, (fieldLabel) => {
 
 Then(/^I see an error that says "([^"]*)"$/, (text) => {
   cy.findByRole('alert', { text }).should('be.visible');
+});
+
+Then(/^I see a "([^"]*)" button$/, (buttonName) => {
+  cy.findByRole('button', { name: buttonName }).should('be.visible');
 });

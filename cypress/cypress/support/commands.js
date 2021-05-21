@@ -1,5 +1,34 @@
 import '@testing-library/cypress/add-commands';
 
+Cypress.Commands.add('login', ({ username, password }) => {
+  const mutation = `
+    mutation LOGIN_MUTATION {
+      authenticateUserWithPassword(username: "${username}", password: "${password}") {
+      ... on UserAuthenticationWithPasswordSuccess {
+        item {
+          id
+          username
+          name
+        }
+      }
+
+      ... on UserAuthenticationWithPasswordFailure {
+        code
+        message
+      }
+    }
+  }
+  `;
+
+  cy.request({
+    url: 'http://localhost:3000/api/graphql',
+    method: 'POST',
+    body: {
+      query: mutation,
+    },
+  }).its('body');
+});
+
 Cypress.Commands.add('getUserId', ({ username }) => {
   const query = `
     query GET_ALL_USERS {

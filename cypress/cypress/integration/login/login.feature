@@ -17,6 +17,7 @@ Feature: Sign Up for New Account
              When I click the "Login" button
              Then I see the URL is now "/"
               And I see the text "Welcome, Cypress Test2!"
+              And I see a "Logout" button
 
         Scenario: Failed login does not redirect to home page
             Given I am not logged in
