@@ -48,6 +48,10 @@ When(/^I click the "([^"]*)" button$/, (buttonName) => {
   cy.findByRole('button', { name: buttonName }).click();
 });
 
+When(/^I select the "([^"]*)" option$/, (optionName) => {
+  cy.findByRole('option', { name: optionName }).click();
+});
+
 Then(/^I see the page title is "([^"]*)"$/, (title) => {
   cy.title().should('equal', title);
 });
@@ -84,3 +88,10 @@ Then(/^I see an error that says "([^"]*)"$/, (text) => {
 Then(/^I see a "([^"]*)" button$/, (buttonName) => {
   cy.findByRole('button', { name: buttonName }).should('be.visible');
 });
+
+Then(
+  /^I see the "([^"]*)" field has the value "([^"]*)"$/,
+  (fieldLabel, value) => {
+    cy.findByLabelText(fieldLabel).should('have.value', value);
+  }
+);
