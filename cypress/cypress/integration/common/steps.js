@@ -41,6 +41,10 @@ When(/^I click the "([^"]*)" button$/, (buttonName) => {
   cy.findByRole('button', { name: buttonName }).click();
 });
 
+Then(/^I see a "([^"]*)" button$/, (buttonName) => {
+  cy.findByRole('button', { name: buttonName }).should('be.visible');
+});
+
 Then(/^I see the page title is "([^"]*)"$/, (title) => {
   cy.title().should('equal', title);
 });

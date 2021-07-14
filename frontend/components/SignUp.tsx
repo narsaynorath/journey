@@ -1,10 +1,8 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
-import { InputText } from 'primereact/inputtext';
-import { Message } from 'primereact/message';
 import styled from 'styled-components';
+
+import { Alert, Button, Card, TextField } from '@material-ui/core';
 
 import useForm from '../lib/useForm';
 
@@ -22,17 +20,13 @@ const HeaderStyles = styled.header`
 const FormStyles = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 0 auto 24px auto;
   max-width: 500px;
-
-  input {
-    margin-bottom: 12px;
-  }
 `;
 
 const FormFooter = styled.footer`
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
 `;
 
 const ButtonStyles = styled.div`
@@ -94,74 +88,51 @@ export default function SignUp() {
           }}
         >
           {error && (
-            <Message
-              severity="error"
-              text="This user account is already taken."
-            />
+            <Alert severity="error">This user account is already taken.</Alert>
           )}
           {data?.createUser && (
-            <Message
-              severity="success"
-              text={getSuccessMessage({ ...data.createUser })}
-            />
+            <Alert severity="success">
+              {getSuccessMessage({ ...data.createUser })}
+            </Alert>
           )}
-          <label htmlFor="name" className="p-d-block">
-            Name (optional)
-          </label>
-          <InputText
+          <label htmlFor="name">Name (optional)</label>
+          <TextField
             id="name"
             name="name"
-            aria-describedby="name-help"
-            className="p-d-block"
             value={inputs.name}
             onChange={handleChange}
           />
-          <label htmlFor="username" className="p-d-block">
-            Username
-          </label>
-          <InputText
+          <label htmlFor="username">Username</label>
+          <TextField
             id="username"
             name="username"
-            aria-describedby="username-help"
             required={true}
-            className="p-d-block"
             value={inputs.username}
             onChange={handleChange}
           />
-          <label htmlFor="email" className="p-d-block">
-            Email
-          </label>
-          <InputText
+          <label htmlFor="email">Email</label>
+          <TextField
             id="email"
             name="email"
             type="email"
-            aria-describedby="email-help"
             required={true}
-            className="p-d-block"
             value={inputs.email}
             onChange={handleChange}
           />
-          <label htmlFor="password" className="p-d-block">
-            Password
-          </label>
-          <InputText
+          <label htmlFor="password">Password</label>
+          <TextField
             id="password"
             name="password"
             type="password"
-            aria-describedby="password-help"
             required={true}
-            className="p-d-block"
             value={inputs.password}
             onChange={handleChange}
           />
           <FormFooter>
             <ButtonStyles>
-              <Button
-                type="submit"
-                label="Sign Up"
-                icon="pi pi-ticket"
-                iconPos="right"
-              />
+              <Button type="submit" variant="contained">
+                Sign Up
+              </Button>
             </ButtonStyles>
           </FormFooter>
         </FormStyles>

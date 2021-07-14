@@ -1,11 +1,9 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/dist/client/router';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
-import { InputText } from 'primereact/inputtext';
-import { Message } from 'primereact/message';
 import styled from 'styled-components';
+
+import { Alert, Button, Card, TextField } from '@material-ui/core';
 
 import useForm from '../lib/useForm';
 import { CURRENT_USER_QUERY } from '../lib/user';
@@ -24,17 +22,13 @@ const HeaderStyles = styled.header`
 const FormStyles = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 0 auto 24px auto;
   max-width: 500px;
-
-  input {
-    margin-bottom: 12px;
-  }
 `;
 
 const FormFooter = styled.footer`
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
 `;
 
 const ButtonStyles = styled.div`
@@ -91,40 +85,29 @@ export default function Login() {
             }
           }}
         >
-          {error && <Message severity="error" text="An error occurred." />}
-          <label htmlFor="username" className="p-d-block">
-            Username
-          </label>
-          <InputText
+          {error && <Alert severity="error">An error occurred.</Alert>}
+          <label htmlFor="username">Username</label>
+          <TextField
             id="username"
             name="username"
-            aria-describedby="username-help"
             required={true}
-            className="p-d-block"
             value={inputs.username}
             onChange={handleChange}
           />
-          <label htmlFor="password" className="p-d-block">
-            Password
-          </label>
-          <InputText
+          <label htmlFor="password">Password</label>
+          <TextField
             id="password"
             name="password"
             type="password"
-            aria-describedby="password-help"
             required={true}
-            className="p-d-block"
             value={inputs.password}
             onChange={handleChange}
           />
           <FormFooter>
             <ButtonStyles>
-              <Button
-                type="submit"
-                label="Login"
-                icon="pi pi-ticket" // TODO: Change this
-                iconPos="right"
-              />
+              <Button type="submit" variant="contained">
+                Login
+              </Button>
             </ButtonStyles>
           </FormFooter>
         </FormStyles>

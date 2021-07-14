@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { Button } from 'primereact/button';
 import styled from 'styled-components';
+
+import { Button } from '@material-ui/core';
 
 import { useUser } from '../lib/user';
 import Logo from './Logo';
+import { useRouter } from 'next/dist/client/router';
 
 const NavBarStyles = styled.header`
   position: relative;
@@ -21,13 +23,15 @@ const NavBarInnerStyles = styled.div`
 
 const NavLinkStyles = styled.ul`
   margin: 0;
-  a {
+  button {
     margin-left: 12px;
   }
 `;
 
 export default function NavBar() {
   const user = useUser();
+  const router = useRouter();
+
   return (
     <NavBarStyles>
       <NavBarInnerStyles>
@@ -38,12 +42,16 @@ export default function NavBar() {
         </Link>
         {user && <p>Welcome, {user?.name || user?.username}!</p>}
         <NavLinkStyles>
-          <Link href="/signup">
-            <a className="p-button p-button-lg p-button-raised">Sign Up Free</a>
-          </Link>
-          <Link href="/login">
-            <a className="p-button p-button-lg p-button-secondary">Login</a>
-          </Link>
+          {router.pathname !== '/signup' && (
+            <Link href="/signup">
+              <Button variant="contained">Sign Up Free</Button>
+            </Link>
+          )}
+          {router.pathname !== '/login' && (
+            <Link href="/login">
+              <Button variant="outlined">Login</Button>
+            </Link>
+          )}
         </NavLinkStyles>
       </NavBarInnerStyles>
     </NavBarStyles>

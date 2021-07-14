@@ -7,7 +7,7 @@ Feature: Sign Up for New Account
                   | name          | username    | email                   | password |
                   | Cypress Test2 | cypresstest | cypresstest@example.com | password |
               And I navigate to the homepage
-              And I click the "Login" link
+              And I click the "Login" button
               And I see the URL is now "/login"
               And I see a header with the text "Login"
               And I see a "Username" field
@@ -21,7 +21,7 @@ Feature: Sign Up for New Account
         Scenario: Failed login does not redirect to home page
             Given I am not logged in
               And I navigate to the homepage
-              And I click the "Login" link
+              And I click the "Login" button
               And I see the URL is now "/login"
               And I see a header with the text "Login"
               And I see a "Username" field
