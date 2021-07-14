@@ -3,8 +3,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
 
-import { Button, Card, TextField } from '@material-ui/core';
-import { Message } from 'primereact/message';
+import { Alert, Button, Card, TextField } from '@material-ui/core';
 
 import useForm from '../lib/useForm';
 import { CURRENT_USER_QUERY } from '../lib/user';
@@ -86,7 +85,7 @@ export default function Login() {
             }
           }}
         >
-          {error && <Message severity="error" text="An error occurred." />}
+          {error && <Alert severity="error">An error occurred.</Alert>}
           <label htmlFor="username">Username</label>
           <TextField
             id="username"
