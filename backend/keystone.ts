@@ -37,8 +37,7 @@ export default auth.withAuth(
     server: {
       cors: {
         // @ts-ignore
-        origin: [process.env.FRONTEND_URL],
-        port: 3000,
+        origin: [process.env.FRONTEND_URL || 'http://localhost:7777'],
         credentials: true,
       },
     },
