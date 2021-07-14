@@ -66,11 +66,16 @@ export default function Login() {
     password: '',
   });
 
-  const [login, { data, error }] = useMutation(LOGIN_MUTATION, {
+  const [login, { data }] = useMutation(LOGIN_MUTATION, {
     variables: inputs,
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
 
+  const error =
+    data?.authenticateUserWithPassword.__typename ===
+    'UserAuthenticationWithPasswordFailure'
+      ? data?.authenticateUserWithPassword
+      : undefined;
   return (
     <CardStyles>
       <Card style={{ width: '600px' }}>
@@ -80,11 +85,10 @@ export default function Login() {
         <FormStyles
           onSubmit={async (e) => {
             e.preventDefault();
-            try {
-              await login();
-              console.log(data);
+            const result = await login();
+            if (!result?.data?.authenticateUserWithPassword?.message) {
               router.push('/');
-            } catch {}
+            }
           }}
         >
           {error && <Message severity="error" text="An error occurred." />}
