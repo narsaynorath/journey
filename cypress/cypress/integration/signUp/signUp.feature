@@ -4,7 +4,7 @@ Feature: Sign Up for New Account
         Scenario: Filled form successfully registers user
             Given I am not logged in
               And I navigate to the homepage
-              And I click the "Sign Up Free" link
+              And I click the "Sign Up Free" button
               And I see the URL is now "/signup"
               And I see a header with the text "Sign Up"
               And I see a "Name (optional)" field
