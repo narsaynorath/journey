@@ -89,10 +89,8 @@ export default function SignUp() {
         <FormStyles
           onSubmit={async (e) => {
             e.preventDefault();
-            try {
-              await signUp();
-              clearForm();
-            } catch {}
+            await signUp();
+            clearForm();
           }}
         >
           {error && (
